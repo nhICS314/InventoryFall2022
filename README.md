@@ -1,8 +1,9 @@
 # Rails on Replit
 <details>
-- bind the app on `0.0.0.0` instead of `localhost` (see `.replit`)
-- allow `*.repl.co` hosts (see `config/environments/development.rb`)
-- allow the app to be iframed on `replit.com` (see `config/application.rb`)
+
+* bind the app on `0.0.0.0` instead of `localhost` (see `.replit`)
+* allow `*.repl.co` hosts (see `config/environments/development.rb`)
+* allow the app to be iframed on `replit.com` (see `config/application.rb`)
 
 ### Running the app
 
@@ -37,18 +38,15 @@ If you need help you might be able to find an answer on our [docs](https://docs.
 
 ## Dependencies/Software Needed
 
-* If using Replit to run the program this section is not necessary and you can skip to the explanation of the app.
-
-
 ### Ensure that Ruby on Rails and Relevant Dependencies Installed
+* If using Replit to run the program this section is not necessary and you can skip to the explanation of the app.
 <details>
 
 If the dependencies and versions below are installed, you can skip ahead to Cloning and Installing the App Locally. Otherwise, read on and I will link to the Ruby on Rails documentation that includes how to get set up.
 
 ### Dependency Versions
-<details>
-You may already have the dependencies installed.  Please ensure that the versions are the same as the ones the project was made with, or reasonably compatible.  
 
+You may already have the dependencies installed.  Please ensure that the versions are the same as the ones the project was made with, or reasonably compatible.  
 
 Project was made using:
 * Ruby version: `3.0.3`
@@ -57,6 +55,8 @@ Project was made using:
 * node Version: `v16.13.1`
 * yarn version: `1.22.17`
 * git version: `2.32.0 (Apple Git-132)` 
+
+<details>
 
 To check, please use the following commands in terminal to confirm which versions of the dependencies you have (or if they are missing). 
 
@@ -76,7 +76,6 @@ node --version
 ```
 yarn --version
 ```
-
 ```
 git --version
 ```
@@ -92,7 +91,7 @@ So please follow these instructions in section 3.1 for installing Ruby on Rails:
 I had trouble installing Ruby on my Mac.  The built-in Mac Ruby version is too low for Ruby on Rails, but kept responding to `which ruby` and `ruby --version`.  To install Ruby 3.0.3 I had to follow this guide to install it with `rbenv`: [How To Install Ruby On Rails with rbenv on Macos](https://www.digitalocean.com/community/tutorials/how-to-install-ruby-on-rails-with-rbenv-on-macos)
 </details>
 
-## Cloning and Installing App Locally
+### Cloning and Installing App Locally
 
 ### Git versus Zip File Alternative
 `git` is needed to checkout the project.  Alternatively, you can download the archive and extract it from here: [Zip Archive Main.Zip](https://github.com/nhICS314/inventory/archive/refs/heads/main.zip).  
@@ -141,7 +140,7 @@ rails server
 
 </details>    
 
-### Brief Explanation of App
+## Brief Explanation of App
 
 The first page will show all the active items in the inventory on the left and all the deleted items on the right. You can also:
 * Create a new item in the inventory using the `New item` link at the top of the page. 
