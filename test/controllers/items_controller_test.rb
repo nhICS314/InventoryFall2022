@@ -17,10 +17,74 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create item" do
     assert_difference("Item.count") do
-      post items_url, params: { item: { count: @item.count, deletedComment: @item.deletedComment, description: @item.description, name: @item.name, price: @item.price, sku: @item.sku } }
+      post items_url, params: { item: { count: @item.count, description: @item.description, name: @item.name, price: @item.price, sku: @item.sku + "random text" } }
     end
 
     assert_redirected_to item_url(Item.last)
+  end
+
+  test "should fail to create item no sku" do
+    assert_no_difference("Item.count") do
+      post items_url, params: { item: { count: @item.count, description: @item.description, name: @item.name, price: @item.price} }
+    end
+
+    assert_response :unprocessable_entity
+  end
+
+  test "should fail to create item duplicate sku" do
+    assert_no_difference("Item.count") do
+      post items_url, params: { item: { count: @item.count, description: @item.description, name: @item.name, price: @item.price, sku: @item.sku } }
+    end
+
+    assert_response :unprocessable_entity
+  end
+
+  test "should fail to create item no name" do
+    assert_no_difference("Item.count") do
+      post items_url, params: { item: { count: @item.count, description: @item.description, price: @item.price,  sku: @item.sku + "random text"} }
+    end
+
+    assert_response :unprocessable_entity
+  end
+
+  test "should fail to create item no description" do
+    assert_no_difference("Item.count") do
+      post items_url, params: { item: { count: @item.count, name: @item.name, price: @item.price,  sku: @item.sku + "random text"} }
+    end
+
+    assert_response :unprocessable_entity
+  end
+
+  test "should fail to create item no price" do
+    assert_no_difference("Item.count") do
+      post items_url, params: { item: { count: @item.count, name: @item.name, description: @item.description,  sku: @item.sku + "random text"} }
+    end
+
+    assert_response :unprocessable_entity
+  end
+
+  test "should fail to create item negative price" do
+    assert_no_difference("Item.count") do
+      post items_url, params: { item: { count: @item.count, name: @item.name, description: @item.description, price: -1,  sku: @item.sku + "random text"} }
+    end
+
+    assert_response :unprocessable_entity
+  end
+
+  test "should fail to create item no count" do
+    assert_no_difference("Item.count") do
+      post items_url, params: { item: { name: @item.name, description: @item.description, price: @item.price,  sku: @item.sku + "random text"} }
+    end
+
+    assert_response :unprocessable_entity
+  end
+
+  test "should fail to create item negative count" do
+    assert_no_difference("Item.count") do
+      post items_url, params: { item: { count: -1, name: @item.name, description: @item.description, price: @item.price,  sku: @item.sku + "random text"} }
+    end
+
+    assert_response :unprocessable_entity
   end
 
   test "should show item" do
@@ -34,7 +98,7 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update item" do
-    patch item_url(@item), params: { item: { count: @item.count, deletedComment: @item.deletedComment, description: @item.description, name: @item.name, price: @item.price, sku: @item.sku } }
+    patch item_url(@item), params: { item: { count: @item.count, description: @item.description, name: @item.name, price: @item.price, sku: @item.sku } }
     assert_redirected_to item_url(@item)
   end
 

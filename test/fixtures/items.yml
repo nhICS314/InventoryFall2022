@@ -1,17 +1,15 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
+  name: Bread
   price: 9.99
-  description: MyText
-  sku: MyString
-  count: 1
-  deletedComment: MyString
+  description: White bread
+  sku: SKU123
+  count: 10
 
 two:
-  name: MyString
-  price: 9.99
-  description: MyText
-  sku: MyString
-  count: 1
-  deletedComment: MyString
+  name: Milk
+  price: 2.99
+  description: 2% Half Gallon
+  sku: SKU456
+  count: 5
