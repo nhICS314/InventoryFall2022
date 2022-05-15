@@ -21,7 +21,7 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
     respond_to do |format|
       format.html { redirect_to items_url, notice: "Item was successfully restored." }
-      format.json { head :no_content }
+      format.json { render :show, status: :created, location: @item }
     end
   end
 

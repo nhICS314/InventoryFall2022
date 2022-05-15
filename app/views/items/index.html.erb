@@ -1,5 +1,7 @@
 <p style="color: green"><%= notice %></p>
-
+<h2><%= link_to "New item", new_item_path %></h2>
+<table style="width: 100%;"><tr>
+<td style="vertical-align: top;border: 1px solid;width: 50%;">
 <h1>Items</h1>
 
 <div id="items">
@@ -11,13 +13,12 @@
   <% end %>
 </div>
 
---------------
 
-<%= link_to "New item", new_item_path %>
 
----------------
+</td>
+<td style="vertical-align: top;border: 1px solid;width: 50%;">
 
-<h1>Deleted Items---</h1>
+<h1>Deleted Items</h1>
 
   <div id="deleted items">
   <% @items.only_deleted.each do |item| %>
@@ -27,3 +28,5 @@
     </p>
   <% end %>
 </div>
+</td>
+</tr></table>

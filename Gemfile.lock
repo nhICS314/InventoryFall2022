@@ -107,7 +107,6 @@ GEM
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
-    jsonapi_errors_handler (0.5.0)
     loofah (2.13.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -135,6 +134,8 @@ GEM
       net-protocol
       timeout
     nio4r (2.5.8)
+    nokogiri (1.13.1-arm64-darwin)
+      racc (~> 1.4)
     nokogiri (1.13.1-x86_64-linux)
       racc (~> 1.4)
     paranoia (2.6.0)
@@ -219,6 +220,7 @@ GEM
     zeitwerk (2.5.3)
 
 PLATFORMS
+  arm64-darwin-21
   x86_64-linux
 
 DEPENDENCIES
@@ -228,7 +230,6 @@ DEPENDENCIES
   debug
   importmap-rails
   jbuilder
-  jsonapi_errors_handler (~> 0.5.0)
   nokogiri
   paranoia (~> 2.6)
   puma (~> 5.0)
