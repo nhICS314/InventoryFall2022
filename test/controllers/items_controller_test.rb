@@ -102,12 +102,13 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to item_url(@item)
   end
 
-  #count should not chanhge due to paranoia gem
   test "should destroy item" do
     assert_difference("Item.count", -1) do 
       delete item_url(@item), params: { item: { count: @item.count, description: @item.description, name: @item.name, price: @item.price, sku: @item.sku } }
     end
-
     assert_redirected_to items_url
   end
+
+
+
 end

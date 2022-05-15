@@ -1,34 +1,27 @@
 # Rails on Replit
-
-This is a template to get you started with Rails on Replit. It's ready to go so you can just hit run and start coding!
-
-This template was generated using `rails new` (after you install the `rails` gem from the packager sidebar) so you can always do that if you prefer to set it up from scratch. The only had two make config changes we had to make to run it on Replit:
-
+<details>
 - bind the app on `0.0.0.0` instead of `localhost` (see `.replit`)
 - allow `*.repl.co` hosts (see `config/environments/development.rb`)
 - allow the app to be iframed on `replit.com` (see `config/application.rb`)
 
-## Running the app
+### Running the app
 
 Simple hit run! You can edit the run command from the `.replit` file.
 
-## Running commands
+### Running commands
 
 Start every command with `bundle exec` so that it runs in the context of the installed gems environment. The console pane will give you output from the server but you can run arbitrary command from the shell without stopping the server.
 
-## Database
-
-SQLite would work in development but we don't recommend running it in production. Instead look into using the built-in [Replit database](http://docs.replit.com/misc/database). Otherwise you are welcome to connect databases from your favorite provider. 
-
-## Help
+### Help
 
 If you need help you might be able to find an answer on our [docs](https://docs.replit.com) page. Feel free to report bugs and give us feedback [here](https://replit.com/support).
+</details>
 
 #  Inventory Web Application and JSON API
 
 ### Features
 * Allows user to create, edit, view, and delete inventory items. 
-* Inventory item data stored includes: SKU, Item Name, Item Description, Price, and Count.
+* Inventory item data stored includes: SKU, Item Name, Item Description, Price, Count, and Deletion Comments.
 * Exposes all data via JSON REST API 
 * Allows deletion comments 
 * Allows undeletion (restore) and removes deletion comment
@@ -39,17 +32,21 @@ If you need help you might be able to find an answer on our [docs](https://docs.
 * Visual Studio and Replit were used as IDEs
 * Mac Terminal, git command line, and Github Desktop were used as well.
 * Unit testing was done with built in `rails test` and fixtures.
-* I exposed the JSON endpoints by adding `skip_before_action :verify_authenticity_token` to my `items_controller.rb` to skip the CSRF check that was stopping my PUT requests.
+* JSON endpoints were exposed by adding `skip_before_action :verify_authenticity_token` to my `items_controller.rb` to skip the CSRF check that was stopping my PUT requests.
 
 
 ## Dependencies/Software Needed
 
-### Ensure that Ruby on Rails and Relevant Dependencies Installed
+* If using Replit to run the program this section is not necessary and you can skip to the explanation of the app.
 
-If the dependencies and versions below are installed you can skip ahead to Cloning and Installing the App Locally. Otherwise, read on and I will link to the Ruby on Rails documentation that includes how to get set up.
+
+### Ensure that Ruby on Rails and Relevant Dependencies Installed
+<details>
+
+If the dependencies and versions below are installed, you can skip ahead to Cloning and Installing the App Locally. Otherwise, read on and I will link to the Ruby on Rails documentation that includes how to get set up.
 
 ### Dependency Versions
-
+<details>
 You may already have the dependencies installed.  Please ensure that the versions are the same as the ones the project was made with, or reasonably compatible.  
 
 
@@ -93,7 +90,7 @@ So please follow these instructions in section 3.1 for installing Ruby on Rails:
 #### Potential Mac Issue: Errors with Ruby Version?
 
 I had trouble installing Ruby on my Mac.  The built-in Mac Ruby version is too low for Ruby on Rails, but kept responding to `which ruby` and `ruby --version`.  To install Ruby 3.0.3 I had to follow this guide to install it with `rbenv`: [How To Install Ruby On Rails with rbenv on Macos](https://www.digitalocean.com/community/tutorials/how-to-install-ruby-on-rails-with-rbenv-on-macos)
-
+</details>
 
 ## Cloning and Installing App Locally
 
@@ -131,7 +128,6 @@ rails db:migrate
 rails db:seed
 ```
 
-
 ## Starting Server and Viewing App
 
 *This assumes you completed the prior section on Clone and Installation via Command line*
@@ -143,19 +139,20 @@ rails server
 * Visit app:  
     * In your web browser navigate to: http://localhost:3000/items
 
+</details>    
+
 ### Brief Explanation of App
 
-The first page will show all the items in the inventory. You can also:
-* Create a new item in the inventory using the `New item` link at the bottom of the list. 
-* Under each item is a link labeled `Show this item` to see the item's details and edit or delete the item. 
-* Deleted Items shown on bottom of the show all items page.
-* Each deleted item has a link to undelete the item which will clear the deleted comment and restore the item to the active items.
+The first page will show all the active items in the inventory on the left and all the deleted items on the right. You can also:
+* Create a new item in the inventory using the `New item` link at the top of the page. 
+* Under each active item is a link labeled `Show this item` to see the item's details and edit or delete the item. 
+* Under each deleted item is a link to undelete the item which will clear the deleted comment and restore the item to the active items.
 * JSON REST APIs are exposed and described below
 
 ### JSON REST API Endpoints
 <details>
 
-I initially started writing out the data model and APIs by hand here. I wanted to try auto-generating them, but I had a lot of problems getting APIPIE to work [(see: APIPIE Tutorial on Youtube)](https://www.youtube.com/watch?v=fkACBI0fcRI).  So in the end I am writing out my documentation here.
+I initially started writing out the data model and APIs by hand here. I wanted to try auto-generating them, but I had some problems getting APIPIE to work [(see: APIPIE Tutorial on Youtube)](https://www.youtube.com/watch?v=fkACBI0fcRI).  So in the end I am writing out my documentation here.
 
 I'll lay out the APIs first, then easy to copy and paste `curl` examples, and the data model in JSON will be explained immediately following.
 
@@ -223,7 +220,7 @@ curl --request PUT 'http://localhost:3000/items/3.json' \
 
 #### Delete Single Item
 ```
-curl --request DELETE 'http://localhost:3000/items/3.json' | json_pp
+curl --request DELETE 'http://localhost:3000/items/1.json' | json_pp
 ```
 </details>
 
