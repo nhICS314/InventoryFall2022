@@ -1,0 +1,25 @@
+<%= form_with(model: item) do |form| %>
+
+  <% if item.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(item.errors.count, "error") %> prohibited this item from being saved:</h2>
+
+      <ul>
+        <% item.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+ <div>
+     <input name="_method" type="hidden" value="delete" />
+      
+    <%= form.label :deletedComment, style: "display: block" %>
+    <%= form.text_field :deletedComment %>
+  </div>
+
+  <div>
+ <%= form.submit "Delete Item" , method: :delete %>
+  </div>
+<% end %>

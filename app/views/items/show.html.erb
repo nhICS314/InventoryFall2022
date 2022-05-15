@@ -1,0 +1,8 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @item %>
+<%= render "form_delete", item: @item %>
+  
+<div>
+  <%= link_to "Back to items", items_path %>
+</div>
