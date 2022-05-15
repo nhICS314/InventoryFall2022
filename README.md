@@ -93,7 +93,7 @@ I had trouble installing Ruby on my Mac.  The built-in Mac Ruby version is too l
 
 ### Cloning and Installing App Locally
 
-### Git versus Zip File Alternative
+#### Git versus Zip File Alternative
 `git` is needed to checkout the project.  Alternatively, you can download the archive and extract it from here: [Zip Archive Main.Zip](https://github.com/nhICS314/inventory/archive/refs/heads/main.zip).  
 
 In that case, please extract the folder in terminal using your choice of extractor and then continue from step 2 or 3 below in directory `inventory-main` (or wherever you chose to extract it: for me, that was where it was extracted.)
@@ -102,7 +102,7 @@ In that case, please extract the folder in terminal using your choice of extract
 *Please note: I have made them extended code blocks so you should see a copy to clipboard button on the right if you mouse over the code block.*
 
 
-### Clone and Installation via Command Line
+#### Clone and Installation via Command Line
 Open terminal or similar application
 1. Clone the repository: 
 ```
@@ -142,7 +142,9 @@ rails server
 
 ## Brief Explanation of App
 
-The first page will show all the active items in the inventory on the left and all the deleted items on the right. You can also:
+The first page will show all the active items in the inventory on the left and all the deleted items on the right. 
+
+#### You can also:
 * Create a new item in the inventory using the `New item` link at the top of the page. 
 * Under each active item is a link labeled `Show this item` to see the item's details and edit or delete the item. 
 * Under each deleted item is a link to undelete the item which will clear the deleted comment and restore the item to the active items.
