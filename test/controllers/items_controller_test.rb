@@ -104,12 +104,16 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
 
   test "should destroy and restore item" do
     assert_difference("Item.count", -1) do 
-      delete item_url(@item), params: { item: { count: @item.count, description: @item.description, name: @item.name, price: @item.price, sku: @item.sku } }
+      delete item_url(@item), params: { item: { count: @item.count, description: @item.description, name: @item.name, price: @item.price, sku: @item.sku, deletedComment: "expired" } }
     end
     assert_redirected_to items_url
+    item_from_database = Item.with_deleted.find(@item.id)
+    assert_equal "expired", item_from_database.deletedComment
     assert_difference("Item.count", +1) do
       get restore_item_path(@item.id)
     end
+    item_from_database = Item.with_deleted.find(@item.id)
+    assert_nil item_from_database.deletedComment
     assert_redirected_to items_url
   end
 
