@@ -102,13 +102,15 @@ class ItemsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to item_url(@item)
   end
 
-  test "should destroy item" do
+  test "should destroy and restore item" do
     assert_difference("Item.count", -1) do 
       delete item_url(@item), params: { item: { count: @item.count, description: @item.description, name: @item.name, price: @item.price, sku: @item.sku } }
     end
     assert_redirected_to items_url
+    assert_difference("Item.count", +1) do
+      get restore_item_path(@item.id)
+    end
+    assert_redirected_to items_url
   end
-
-
 
 end
