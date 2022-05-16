@@ -64,19 +64,35 @@ class ItemsController < ApplicationController
 
   # DELETE /items/1 or /items/1.json
   def destroy
-    @item.update(item_params)
+    puts params
+    puts 'beginning'
+    if(params.has_key?(:item))
+      puts 'before update'
+      @item.update(item_params)
+      puts 'after update'
+    end
+    puts 'before destroy'
     @item.destroy!
+    puts 'after destroy'
 
+    puts 'before respond'
     respond_to do |format|
       format.html { redirect_to items_url, notice: "Item was successfully destroyed." }
-      format.json { head :no_content }
+      format.json { render json: '{ "message" : "Item was successfully destroyed." }', status: :ok  }
     end
+    puts 'after respond'
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_item
       @item = Item.find(params[:id])
+      if @item.nil?
+        respond_to do |format|
+          format.html { redirect_to items_url, notice: "Item was not found." }
+          format.json { render json: '{ "message" : "Item was not found" }', status: :not_found }
+        end
+      end
     end
 
     # Only allow a list of trusted parameters through.
