@@ -1,4 +1,5 @@
 # Rails on Replit
+Default Replit ReadMe
 <details>
 
 * bind the app on `0.0.0.0` instead of `localhost` (see `.replit`)
@@ -34,6 +35,8 @@ If you need help you might be able to find an answer on our [docs](https://docs.
 * Mac Terminal, git command line, and Github Desktop were used as well.
 * Unit testing was done with built in `rails test` and fixtures.
 * JSON endpoints were exposed by adding `skip_before_action :verify_authenticity_token` to my `items_controller.rb` to skip the CSRF check that was stopping my PUT requests.
+* Used the ruby gem paranoia to do the restore and soft delete features.
+* Used the ruby gem package [api_error_handler](https://github.com/jamesstonehill/api_error_handler) to create nicer error handling
 
 
 ## Dependencies/Software Needed
@@ -91,38 +94,21 @@ So please follow these instructions in section 3.1 for installing Ruby on Rails:
 I had trouble installing Ruby on my Mac.  The built-in Mac Ruby version is too low for Ruby on Rails, but kept responding to `which ruby` and `ruby --version`.  To install Ruby 3.0.3 I had to follow this guide to install it with `rbenv`: [How To Install Ruby On Rails with rbenv on Macos](https://www.digitalocean.com/community/tutorials/how-to-install-ruby-on-rails-with-rbenv-on-macos)
 </details>
 
-### Cloning and Installing App Locally
-
-#### Git versus Zip File Alternative
-`git` is needed to checkout the project.  Alternatively, you can download the archive and extract it from here: [Zip Archive Main.Zip](https://github.com/nhICS314/inventory/archive/refs/heads/main.zip).  
-
-In that case, please extract the folder in terminal using your choice of extractor and then continue from step 2 or 3 below in directory `inventory-main` (or wherever you chose to extract it: for me, that was where it was extracted.)
-
-
 *Please note: I have made them extended code blocks so you should see a copy to clipboard button on the right if you mouse over the code block.*
 
 
-#### Clone and Installation via Command Line
-Open terminal or similar application
-1. Clone the repository: 
-```
-git clone https://github.com/nhICS314/inventory.git
-```
-2. Navigate to where the project folder is located:  
+#### Installation via Command Line
+Open terminal or similar application to the folder the project is located in.
 
-```
-cd inventory
-```
-3. Once in the correct folder use command:  
+1. Once in the correct folder use command:  
 ```
 bundle install
 ```
-4. Create database:  
+2. Create database:  
 ```
 rails db:migrate
 ```
-
-5. Optional, but useful to save some time:  add test data to the database
+3. Optional, but useful to save some time:  add test data to the database
 ```
 rails db:seed
 ```
@@ -150,22 +136,22 @@ The first page will show all the active items in the inventory on the left and a
 * Under each deleted item is a link to undelete the item which will clear the deleted comment and restore the item to the active items.
 * JSON REST APIs are exposed and described below
 
+#### Undelete Functionality
+* If a bad ID is passed in it will show an error message that says it couldn't find item with that ID.
+* If an item is deleted (with or without a comment) it will restore the item to the active record and set comment to nil if applicable.
+* If an item is not deleted it will still restore the item 'successfully' and return the http created code.
+
 ### JSON REST API Endpoints
 <details>
 
-I initially started writing out the data model and APIs by hand here. I wanted to try auto-generating them, but I had some problems getting APIPIE to work [(see: APIPIE Tutorial on Youtube)](https://www.youtube.com/watch?v=fkACBI0fcRI).  So in the end I am writing out my documentation here.
-
-I'll lay out the APIs first, then easy to copy and paste `curl` examples, and the data model in JSON will be explained immediately following.
-
-*I essentially have two URL endpoints, but the different HTTP method and request body will result in different behavior.*
-
 |Function| HTTP Method | API Endpoint |
 |--------|-------------|--------------|
-|Read All Items| `GET`|`http://localhost:3000/items.json`| 
+|Read All Non-Deleted Items| `GET`|`http://localhost:3000/items.json`| 
 |Create single item| `POST` | `http://localhost:3000/items.json`  | 
 |Read Single Item | `GET`|`http://localhost:3000/items/[id].json`|
 |Update Single Item | `PUT` / `PATCH`|  `http://localhost:3000/items/[id].json`  |
 |Delete single item | `DELETE` |  `http://localhost:3000/items/[id].json` |
+|Restore Single Item | `GET`|`http://localhost:3000/items/[id]/restore.json`|
 </details>
 
 ### curl Examples
@@ -178,7 +164,7 @@ I used [Postman](https://www.postman.com/downloads/) to test, and then I used th
 *If it doesn't work you may need to remove the `|json_pp` from the end. It worked on my computer and I felt it was easier to read so I am hoping it works for you. `json_pp` also seems to reorder the output to alphabetize based on the name of each property.*
 
 
-#### Read all items
+#### Read all non-deleted items
 
 ```
 curl --request GET 'http://localhost:3000/items.json' | json_pp
@@ -223,12 +209,18 @@ curl --request PUT 'http://localhost:3000/items/3.json' \
 ```
 curl --request DELETE 'http://localhost:3000/items/1.json' | json_pp
 ```
+
+#### Restore Single Item
+```
+curl --request GET 'http://127.0.0.1:3000/items/1/restore.json' | json_pp
+```
+
 </details>
 
 ### Data Model and Example JSON Object
 <details>
 
-I built this with a single item table. All fields are readable, but `id`,`created_at` and `updated_at` may not be updated via the APIs, they are automatically created and updated by Rails.
+I built this with a single item table. All fields are readable, but `id`,`created_at`, `updated_at`, and `deleted_at` may not be updated via the APIs, they are automatically created and updated by Rails/Paranoia.
 
 
 | Field      | Type |  Required | Constraints / Notes|
@@ -245,27 +237,29 @@ I built this with a single item table. All fields are readable, but `id`,`create
 | `deleted_at`   | Timestamp | N/A | Auto-generated, not exposed, paranoia feature|
 
 
-#### Example JSON Object (A sample response to an object at https://localhost:3000/items/1.json)
+#### Example JSON Object (A sample response to an object at http://localhost:3000/items/1.json)
 ```
    {
-        "id": 1,
-        "name": "bread",
-        "price": "2.5",
-        "description": "white",
-        "sku": "fg543",
-        "count": 3,
-        "created_at": "2022-01-09T20:27:46.823Z",
-        "updated_at": "2022-01-09T20:27:46.823Z",
-        "url": "http://localhost:3000/items/1.json"
-    }
+       "id":1,
+       "name":"formula",
+       "price":"8.99",
+       "description":"similac",
+       "sku":"MILK",
+       "count":7,
+       "deletedComment":null,
+       "created_at":"2022-05-12T05:28:56.802Z",
+       "updated_at":"2022-05-16T01:50:08.936Z",
+       "url":"http://localhost:3000/items/1.json"
+       }
 ```
 </details>
 
 
 ### Running Tests
 <details>
+Some of the tests were auto-generated by rails.  One of the tests I added checks the functionality of the soft delete and restore methods. It deletes an item, checks that the deleted comment was set, then it restores the item and checks that the deleted comment was set to nil.
 
-You can run the tests with the following commands, ensure you are at the top level `inventory` folder to run these commands in terminal:
+You can run the tests with the following commands, ensure you are at the top level folder to run these commands in terminal:
 
 ```
 rails test -v
@@ -276,7 +270,6 @@ If you have [Google Chrome](https://www.google.com/chrome/) installed, you can a
 rails test:system TESTOPTS="-v"
 ```
 
-If I continue working on this or similar projects, I would like to learn how to directly access the JSON apis and test that the JSON key:value pairs matched.  I also would like to try testing the file download like this: [How to write a Rails system test for downloading a file?](https://medium.com/@petervandeput/how-to-write-a-rails-system-test-for-downloading-a-file-d4f972e174dc) and validating the contents. 
 </details>
 
 ## Tutorials Used

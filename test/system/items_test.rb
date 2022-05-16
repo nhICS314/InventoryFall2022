@@ -180,7 +180,7 @@ class ItemsTest < ApplicationSystemTestCase
 
   test "should destroy Item" do
     visit item_url(@item)
-    click_on "Destroy this item", match: :first
+    click_on "Delete Item", match: :first
 
     assert_text "Item was successfully destroyed"
   end
