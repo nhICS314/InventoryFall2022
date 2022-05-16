@@ -288,4 +288,3 @@ I used some tutorials to help:
 * [How to Pass IDs in a Route](https://stackoverflow.com/questions/42363756/rails-how-to-pass-id-to-custom-controller)
 * [How to Use Paranoia](https://www.driftingruby.com/episodes/deleting-and-undeleting-with-paranoia)
 
-[![Run on Repl.it](https://repl.it/badge/github/nhICS314/InventoryFall2022)](https://repl.it/github/nhICS314/InventoryFall2022)
